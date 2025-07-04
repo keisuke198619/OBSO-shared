@@ -10,7 +10,6 @@ if not os.path.exists(fig_dir+"/OBSO"):
     os.makedirs(fig_dir+"/OBSO",exist_ok=True)
 
 # Extract variables from the loaded data
-# Save processed data to CSV files
 events = pd.read_csv('./figure/events_processed.csv') # pandas.DataFrame, shape=(len_event, 14)
 tracking_home_ = pd.read_csv('./figure/tracking_home_processed.csv') # pandas.DataFrame, shape=(num_frames, 74)
 tracking_away_ = pd.read_csv('./figure/tracking_away_processed.csv') # pandas.DataFrame, shape=(num_frames, 64)
