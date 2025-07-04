@@ -311,14 +311,52 @@ def plot_pitchcontrol_for_event( event_id, events,  tracking_home, tracking_away
     else:
         cmap = 'Blues'
     im = ax.imshow(np.flipud(PPCF), extent=(-field_dimen[0]/2., field_dimen[0]/2., -field_dimen[1]/2., field_dimen[1]/2.),interpolation='spline36',vmin=vmin,vmax=vmax,cmap=cmap,alpha=0.5)
-    
+
     if colorbar:
         divider = mpl_toolkits.axes_grid1.make_axes_locatable(ax)
         cax = divider.append_axes('right', '5%', pad='3%')
-        try: fig.colorbar(im, cax=cax)
-        except: import pdb; pdb.set_trace()
+        fig.colorbar(im, cax=cax)
     return fig,ax
 
+def plot_pitchcontrol_for_specific_event(pass_team, tracking_home, tracking_away, PPCF, alpha = 0.7, include_player_velocities=True, annotate=False, field_dimen = (106.0,68), vmin=0.0, vmax=1.0, colorbar=False):
+    """ plot_pitchcontrol_for_event( event_id, events,  tracking_home, tracking_away, PPCF )
+    
+    Plots the pitch control surface at the instant of the event given by the event_id. Player and ball positions are overlaid.
+    
+    Parameters
+    -----------
+        tracking_home: (entire) tracking DataFrame for the Home team
+        tracking_away: (entire) tracking DataFrame for the Away team
+        PPCF: Pitch control surface (dimen (n_grid_cells_x,n_grid_cells_y) ) containing pitch control probability for the attcking team (as returned by the generate_pitch_control_for_event in Metrica_PitchControl)
+        alpha: alpha (transparency) of player markers. Default is 0.7
+        include_player_velocities: Boolean variable that determines whether player velocities are also plotted (as quivers). Default is False
+        annotate: Boolean variable that determines with player jersey numbers are added to the plot (default is False)
+        field_dimen: tuple containing the length and width of the pitch in meters. Default is (106,68)
+        
+    NB: this function no longer requires xgrid and ygrid as an input
+        
+    Returrns
+    -----------
+       fig,ax : figure and aixs objects (so that other data can be plotted onto the pitch)
+
+    """    
+    
+    # plot frame and event
+    fig,ax = plot_pitch(field_color='white', field_dimen = field_dimen)
+    plot_frame( tracking_home, tracking_away, figax=(fig,ax), PlayerAlpha=alpha, include_player_velocities=include_player_velocities, annotate=annotate )
+    # plot_events( events.loc[event_id:event_id], figax = (fig,ax), indicators = ['Marker','Arrow'], annotate=False, color= 'k', alpha=1 )
+    # plot pitch control surface
+    if pass_team=='Home':
+        cmap = 'Reds'
+    else:
+        cmap = 'Blues'
+    im = ax.imshow(np.flipud(PPCF), extent=(-field_dimen[0]/2., field_dimen[0]/2., -field_dimen[1]/2., field_dimen[1]/2.),interpolation='spline36',vmin=vmin,vmax=vmax,cmap=cmap,alpha=0.5)
+
+    if colorbar:
+        divider = mpl_toolkits.axes_grid1.make_axes_locatable(ax)
+        cax = divider.append_axes('right', '5%', pad='3%')
+        fig.colorbar(im, cax=cax)
+    return fig,ax
 
 def plot_pitchcontrol_for_tracking( tracking_frame, tracking_home, tracking_away, attacking_team, PPCF, alpha = 0.7, include_player_velocities=True, annotate=False, field_dimen = (106.0,68), vmin=0.0, vmax=1.0, colorbar=False):
     """ plot_pitchcontrol_for_event( tracking_frame, tracking_home, tracking_away, attacking_team, PPCF )

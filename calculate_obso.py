@@ -131,13 +131,36 @@ home_onball_obso.to_pickle(resultfolder+'/home_onball_obso.pkl')
 away_onball_obso.to_pickle(resultfolder+'/away_onball_obso.pkl')
 print(f"OBSO was saved at {resultfolder}.")
 
+
 # create figures
 # tracking_frame = 1
 # attacking_team = 'Home'
 # fig,ax = mviz.plot_pitchcontrol_for_tracking( tracking_frame, tracking_home, tracking_away, attacking_team, PPCF[event_num], annotate=True )
 fig_dir = "./figure/"+args.data 
-event_nums = range(args.start_ev,args.end_ev)
-event_num0 = 2 
+if not os.path.exists(fig_dir+"/OBSO"):
+    os.makedirs(fig_dir+"/OBSO",exist_ok=True)
+
+# Save the data for visualization testing
+
+save_sample = True
+if save_sample:
+    event_nums = range(args.start_ev,args.end_ev)
+    event_num0 = 2 
+    events_ = events.loc[event_nums]
+    pass_frame = events_.iloc[event_num0]['Start Frame']
+
+    # Save each variable as a separate CSV file with _processed suffix
+    events_.to_csv('./figure/events_processed.csv', index=False)
+    tracking_home.loc[pass_frame-10:pass_frame+10].to_csv('./figure/tracking_home_processed.csv', index=False)
+    tracking_away.loc[pass_frame-10:pass_frame+10].to_csv('./figure/tracking_away_processed.csv', index=False)
+    pd.DataFrame(EPV).to_csv('./figure/EPV_processed.csv', index=False, header=False)
+    pd.DataFrame(Transition[event_num0]).to_csv(f'./figure/Transition_processed.csv', index=False, header=False)
+    pd.DataFrame(PPCF[event_num0]).to_csv(f'./figure/PPCF_processed.csv', index=False, header=False)
+    pd.DataFrame(obso[event_num0]).to_csv(f'./figure/obso_processed.csv', index=False, header=False)
+    print("Processed data saved for visualization testing.")
+    import pdb; pdb.set_trace()
+
+# create figures
 fig,ax = mviz.plot_pitchcontrol_for_event(event_nums[event_num0], events,  tracking_home, tracking_away, EPV, annotate=True, colorbar=True)
 fig.savefig(fig_dir+"/OBSO/EPV_"+str(game_id)+"_"+str(event_nums[event_num0])+".png")
 fig,ax = mviz.plot_pitchcontrol_for_event(event_nums[event_num0], events,  tracking_home, tracking_away, Transition[event_num0], annotate=True, colorbar=True)
