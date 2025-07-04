@@ -158,7 +158,6 @@ if save_sample:
     pd.DataFrame(PPCF[event_num0]).to_csv(f'./figure/PPCF_processed.csv', index=False, header=False)
     pd.DataFrame(obso[event_num0]).to_csv(f'./figure/obso_processed.csv', index=False, header=False)
     print("Processed data saved for visualization testing.")
-    import pdb; pdb.set_trace()
 
 # create figures
 fig,ax = mviz.plot_pitchcontrol_for_event(event_nums[event_num0], events,  tracking_home, tracking_away, EPV, annotate=True, colorbar=True)

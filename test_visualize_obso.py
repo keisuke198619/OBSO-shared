@@ -29,6 +29,8 @@ pass_team = events.loc[event_num0].Team
 tracking_home = tracking_home_.loc[frame]
 tracking_away = tracking_away_.loc[frame]
 
+# note that obso = PPCF * Transition * EPV in this code
+
 fig,ax = mviz.plot_pitchcontrol_for_specific_event(pass_team,  tracking_home, tracking_away, EPV, annotate=True, colorbar=True)
 fig.savefig(fig_dir+"/OBSO/EPV_"+str(game_id)+"_"+str(event_nums[event_num0])+".png")
 fig,ax = mviz.plot_pitchcontrol_for_specific_event(pass_team,  tracking_home, tracking_away, Transition, annotate=True, colorbar=True)

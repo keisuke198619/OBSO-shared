@@ -6,6 +6,7 @@
 `pip install -r requirements.txt`
 
 * See `run.sh` for computing OBSO.
+* In particular, run `python test_visualize_obso.py` to understand OBSO.  
 * To use metrica sample data, please download https://github.com/metrica-sports/sample-data and set it at `../metrica-sample-data`.
 
 ## References
